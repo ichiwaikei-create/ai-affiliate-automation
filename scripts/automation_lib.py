@@ -6,6 +6,7 @@ import re
 import unicodedata
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Tuple
+from urllib.parse import urlparse
 
 import yaml
 
@@ -132,6 +133,20 @@ def affiliate_go_url(item: Dict[str, Any]) -> str:
     return f"/{GO_DIR_NAME}/{slugify(str(item['id']))}.html"
 
 
+def site_base_path(site: Dict[str, Any]) -> str:
+    path = urlparse(str(site.get("base_url", ""))).path.rstrip("/")
+    return path if path else ""
+
+
+def site_path(path: str, base_path: str) -> str:
+    if re.match(r"^https?://", path) or path.startswith("#"):
+        return path
+    normalized = "/" + path.lstrip("/")
+    if normalized == "/":
+        return f"{base_path}/" if base_path else "/"
+    return f"{base_path}{normalized}" if base_path else normalized
+
+
 def expand_template_topics(template_data: Dict[str, Any]) -> List[Dict[str, Any]]:
     """Build deterministic long-tail SEO topics from industry/use-case/tool axes."""
     missing = REQUIRED_TOPIC_TEMPLATE_FIELDS - set(template_data)
@@ -194,7 +209,7 @@ def article_output_path(article: Dict[str, Any]) -> Path:
     return SITE_DIR / "articles" / f"{slug}.html"
 
 
-def safe_inline_markdown(text: str) -> str:
+def safe_inline_markdown(text: str, base_path: str = "") -> str:
     escaped = html.escape(text)
     escaped = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", escaped)
 
@@ -203,12 +218,14 @@ def safe_inline_markdown(text: str) -> str:
         url = match.group(2)
         if not re.match(r"^(https?://|/|\.{0,2}/)", url):
             return label
+        if url.startswith("/"):
+            url = site_path(url, base_path)
         return f'<a href="{html.escape(url, quote=True)}">{label}</a>'
 
     return re.sub(r"\[([^\]]+)\]\(([^)]+)\)", link_repl, escaped)
 
 
-def markdown_to_html(markdown: str) -> str:
+def markdown_to_html(markdown: str, base_path: str = "") -> str:
     lines = markdown.splitlines()
     output: List[str] = []
     list_buffer: List[str] = []
@@ -216,7 +233,7 @@ def markdown_to_html(markdown: str) -> str:
     def flush_list() -> None:
         if list_buffer:
             output.append("<ul>")
-            output.extend(f"<li>{safe_inline_markdown(item)}</li>" for item in list_buffer)
+            output.extend(f"<li>{safe_inline_markdown(item, base_path)}</li>" for item in list_buffer)
             output.append("</ul>")
             list_buffer.clear()
 
@@ -230,15 +247,15 @@ def markdown_to_html(markdown: str) -> str:
             continue
         flush_list()
         if stripped.startswith("### "):
-            output.append(f"<h3>{safe_inline_markdown(stripped[4:])}</h3>")
+            output.append(f"<h3>{safe_inline_markdown(stripped[4:], base_path)}</h3>")
         elif stripped.startswith("## "):
-            output.append(f"<h2>{safe_inline_markdown(stripped[3:])}</h2>")
+            output.append(f"<h2>{safe_inline_markdown(stripped[3:], base_path)}</h2>")
         elif stripped.startswith("# "):
-            output.append(f"<h1>{safe_inline_markdown(stripped[2:])}</h1>")
+            output.append(f"<h1>{safe_inline_markdown(stripped[2:], base_path)}</h1>")
         elif stripped == "---":
             output.append("<hr>")
         else:
-            output.append(f"<p>{safe_inline_markdown(stripped)}</p>")
+            output.append(f"<p>{safe_inline_markdown(stripped, base_path)}</p>")
     flush_list()
     return "\n".join(output)
 
@@ -249,6 +266,7 @@ def render_page(
     body_html: str,
     site_title: str,
     head_extra: str = "",
+    base_path: str = "",
 ) -> str:
     rendered_head_extra = f"  {head_extra}\n" if head_extra else ""
     return f"""<!doctype html>
@@ -258,15 +276,15 @@ def render_page(
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{html.escape(title)} | {html.escape(site_title)}</title>
   <meta name="description" content="{html.escape(description, quote=True)}">
-  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="{html.escape(site_path('/assets/style.css', base_path), quote=True)}">
 {rendered_head_extra.rstrip()}
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="/">{html.escape(site_title)}</a>
+    <a class="brand" href="{html.escape(site_path('/', base_path), quote=True)}">{html.escape(site_title)}</a>
     <nav>
-      <a href="/articles/">記事一覧</a>
-      <a href="/sitemap.xml">Sitemap</a>
+      <a href="{html.escape(site_path('/articles/', base_path), quote=True)}">記事一覧</a>
+      <a href="{html.escape(site_path('/sitemap.xml', base_path), quote=True)}">Sitemap</a>
     </nav>
   </header>
   <main class="layout">

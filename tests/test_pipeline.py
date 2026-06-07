@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from automation_lib import load_all_topics  # noqa: E402
+from automation_lib import load_all_topics, site_path  # noqa: E402
 
 
 def run_script(*args: str) -> subprocess.CompletedProcess[str]:
@@ -69,3 +69,18 @@ def test_launch_audit_reports_current_blockers() -> None:
     assert result.returncode in {0, 2}
     assert "Launch Audit" in result.stdout
     assert "Approved affiliate links" in result.stdout
+
+
+def test_site_links_include_github_pages_project_base_path() -> None:
+    run_script("scripts/build_site.py")
+    index = (ROOT / "site" / "index.html").read_text(encoding="utf-8")
+    assert 'href="/ai-affiliate-automation/assets/style.css"' in index
+    assert 'href="/ai-affiliate-automation/articles/' in index
+    assert 'href="/articles/' not in index
+    assert 'href="/assets/' not in index
+
+
+def test_site_path_prefixes_project_pages_paths() -> None:
+    assert site_path("/", "/ai-affiliate-automation") == "/ai-affiliate-automation/"
+    assert site_path("/articles/example.html", "/ai-affiliate-automation") == "/ai-affiliate-automation/articles/example.html"
+    assert site_path("https://example.com/x", "/ai-affiliate-automation") == "https://example.com/x"

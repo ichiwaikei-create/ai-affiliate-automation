@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /go/
-Sitemap: /sitemap.xml
+Disallow: /ai-affiliate-automation/go/
+Sitemap: https://ichiwaikei-create.github.io/ai-affiliate-automation/sitemap.xml

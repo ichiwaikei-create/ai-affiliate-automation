@@ -19,6 +19,7 @@ from automation_lib import (
     load_articles,
     load_yaml,
     parse_date,
+    site_base_path,
     slugify,
     today_jst,
 )
@@ -193,6 +194,10 @@ def validate_content(errors: List[str], catalog: Dict[str, Any]) -> None:
 
 
 def validate_site(errors: List[str]) -> None:
+    topics = load_yaml(DATA_DIR / "topics.yml")
+    site = topics.get("site", {})
+    base_path = site_base_path(site)
+    base_url = str(site.get("base_url", "")).rstrip("/")
     required = [
         SITE_DIR / "index.html",
         SITE_DIR / "articles" / "index.html",
@@ -207,9 +212,23 @@ def validate_site(errors: List[str]) -> None:
         text = path.read_text(encoding="utf-8")
         if "<title>" not in text or '<meta name="description"' not in text:
             fail(errors, f"{path} missing title or meta description")
+        if base_path:
+            bad_links = [
+                'href="/articles/',
+                'href="/assets/',
+                'href="/sitemap.xml"',
+                'href="/go/',
+                'href="/"',
+            ]
+            for bad_link in bad_links:
+                if bad_link in text:
+                    fail(errors, f"{path} contains root-relative link that ignores base_path {base_path}: {bad_link}")
         for pattern in FORBIDDEN_PATTERNS:
             if pattern in text:
                 fail(errors, f"{path} contains forbidden pattern: {pattern}")
+    robots = SITE_DIR / "robots.txt"
+    if robots.exists() and base_url and f"Sitemap: {base_url}/sitemap.xml" not in robots.read_text(encoding="utf-8"):
+        fail(errors, f"{robots} must use absolute production sitemap URL")
     go_dir = SITE_DIR / "go"
     if go_dir.exists():
         for path in go_dir.glob("*.html"):

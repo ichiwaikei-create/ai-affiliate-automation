@@ -14,6 +14,8 @@ from automation_lib import (
     load_yaml,
     markdown_to_html,
     render_page,
+    site_base_path,
+    site_path,
     write_text,
 )
 
@@ -119,10 +121,10 @@ def published_articles():
     return articles
 
 
-def build_index(articles, site, head_extra):
+def build_index(articles, site, head_extra, base_path):
     cards = []
     for article in articles:
-        path = f"/articles/{article['slug']}.html"
+        path = site_path(f"/articles/{article['slug']}.html", base_path)
         cards.append(
             f"""<section class="article-card">
   <h2><a href="{html.escape(path)}">{html.escape(article['title'])}</a></h2>
@@ -140,30 +142,31 @@ def build_index(articles, site, head_extra):
 <section class="card-list">
 {''.join(cards)}
 </section>"""
-    return render_page(site["title"], site["description"], body, site["title"], head_extra=head_extra)
+    return render_page(site["title"], site["description"], body, site["title"], head_extra=head_extra, base_path=base_path)
 
 
-def build_articles_index(articles, site, head_extra):
-    links = "\n".join(
-        f"<li><a href=\"/articles/{html.escape(article['slug'])}.html\">{html.escape(article['title'])}</a></li>"
-        for article in articles
-    )
+def build_articles_index(articles, site, head_extra, base_path):
+    link_items = []
+    for article in articles:
+        path = site_path(f"/articles/{article['slug']}.html", base_path)
+        link_items.append(f'<li><a href="{html.escape(path, quote=True)}">{html.escape(article["title"])}</a></li>')
+    links = "\n".join(link_items)
     body = f"<article><h1>記事一覧</h1><ul>{links}</ul></article>"
-    return render_page("記事一覧", "公開済み記事の一覧", body, site["title"], head_extra=head_extra)
+    return render_page("記事一覧", "公開済み記事の一覧", body, site["title"], head_extra=head_extra, base_path=base_path)
 
 
-def build_article_page(article, site, head_extra):
-    body = markdown_to_html(article["_body"])
+def build_article_page(article, site, head_extra, base_path):
+    body = markdown_to_html(article["_body"], base_path=base_path)
     disclosure = html.escape(article.get("monetization_disclosure", ""))
     article_html = f"""<article>
   <p class="meta">{html.escape(article.get('keyword', ''))} / 更新日 {html.escape(str(article.get('updated_at', '')))}</p>
   <p class="disclosure">{disclosure}</p>
   {body}
 </article>"""
-    return render_page(article["title"], article.get("description", ""), article_html, site["title"], head_extra=head_extra)
+    return render_page(article["title"], article.get("description", ""), article_html, site["title"], head_extra=head_extra, base_path=base_path)
 
 
-def build_redirect_page(item, site, tracking):
+def build_redirect_page(item, site, tracking, base_path):
     analytics = tracking.get("analytics", {})
     redirect = tracking.get("redirect", {})
     event_name = analytics.get("event_name", "affiliate_click")
@@ -207,7 +210,14 @@ def build_redirect_page(item, site, tracking):
   </script>
 </article>"""
     noindex = '<meta name="robots" content="noindex,nofollow">'
-    return render_page(f"{item['name']}へ移動", "広告リンクへのリダイレクトページ", body, site["title"], head_extra=noindex + "\n  " + analytics_head(tracking))
+    return render_page(
+        f"{item['name']}へ移動",
+        "広告リンクへのリダイレクトページ",
+        body,
+        site["title"],
+        head_extra=noindex + "\n  " + analytics_head(tracking),
+        base_path=base_path,
+    )
 
 
 def build_sitemap(articles, site):
@@ -228,17 +238,19 @@ def main() -> int:
     site = topics["site"]
     articles = published_articles()
     head_extra = analytics_head(tracking)
+    base_path = site_base_path(site)
 
     write_text(SITE_DIR / "assets" / "style.css", STYLE.strip() + "\n")
     write_text(SITE_DIR / ".nojekyll", "")
-    write_text(SITE_DIR / "index.html", build_index(articles, site, head_extra))
-    write_text(SITE_DIR / "articles" / "index.html", build_articles_index(articles, site, head_extra))
+    write_text(SITE_DIR / "index.html", build_index(articles, site, head_extra, base_path))
+    write_text(SITE_DIR / "articles" / "index.html", build_articles_index(articles, site, head_extra, base_path))
     for article in articles:
-        write_text(article_output_path(article), build_article_page(article, site, head_extra))
+        write_text(article_output_path(article), build_article_page(article, site, head_extra, base_path))
     for item in approved_affiliate_items(catalog):
-        write_text(SITE_DIR / affiliate_go_url(item).lstrip("/"), build_redirect_page(item, site, tracking))
+        write_text(SITE_DIR / affiliate_go_url(item).lstrip("/"), build_redirect_page(item, site, tracking, base_path))
     write_text(SITE_DIR / "sitemap.xml", build_sitemap(articles, site))
-    write_text(SITE_DIR / "robots.txt", "User-agent: *\nAllow: /\nDisallow: /go/\nSitemap: /sitemap.xml\n")
+    base_url = site.get("base_url", "https://example.com").rstrip("/")
+    write_text(SITE_DIR / "robots.txt", f"User-agent: *\nAllow: /\nDisallow: {site_path('/go/', base_path)}\nSitemap: {base_url}/sitemap.xml\n")
     print(f"built {len(articles)} article pages into {SITE_DIR.relative_to(Path.cwd())}")
     return 0
 

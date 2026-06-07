@@ -5,7 +5,17 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import List
 
-from automation_lib import DATA_DIR, REPORTS_DIR, SITE_DIR, load_all_topics, load_articles, load_yaml, today_jst, write_text
+from automation_lib import (
+    DATA_DIR,
+    REPORTS_DIR,
+    SITE_DIR,
+    load_all_topics,
+    load_articles,
+    load_yaml,
+    site_base_path,
+    today_jst,
+    write_text,
+)
 
 
 @dataclass
@@ -33,6 +43,16 @@ def exists(path: Path) -> bool:
     return path.exists() and (not path.is_file() or path.stat().st_size >= 0)
 
 
+def base_path_links_ok(base_path: str) -> bool:
+    if not base_path:
+        return True
+    index_path = SITE_DIR / "index.html"
+    if not index_path.exists():
+        return False
+    text = index_path.read_text(encoding="utf-8")
+    return f'href="{base_path}/articles/' in text and 'href="/articles/' not in text and 'href="/assets/' not in text
+
+
 def main() -> int:
     today = today_jst()
     catalog = load_yaml(DATA_DIR / "affiliate_catalog.yml")
@@ -48,12 +68,14 @@ def main() -> int:
     assumptions = revenue_model.get("assumptions", {})
     target_pages = int(assumptions.get("published_pages_target", 100))
     base_url = topics_data.get("site", {}).get("base_url", "")
+    base_path = site_base_path(topics_data.get("site", {}))
 
     checks: List[Check] = [
         Check("GitHub remote", bool(remote), remote or "origin remote is not configured"),
         Check("GitHub Actions", exists(Path(".github/workflows/daily_generate.yml")) and exists(Path(".github/workflows/deploy.yml")), "daily/deploy workflows present"),
         Check("GitHub Pages artifact", exists(SITE_DIR / "index.html") and exists(SITE_DIR / "sitemap.xml"), "site/index.html and sitemap.xml present"),
         Check("Production base_url", base_url.startswith("https://") and "example.com" not in base_url, base_url or "base_url is empty"),
+        Check("Base path links", base_path_links_ok(base_path), base_path or "root domain"),
         Check("Published articles", len(published_articles) >= target_pages, f"{len(published_articles)} published articles for {target_pages}-page target"),
         Check("100-page inventory", len(topics) >= target_pages, f"{len(topics)} topic candidates for {target_pages}-page target"),
         Check("Approved affiliate links", len(approved_items) > 0, f"{len(approved_items)} approved affiliate items"),
