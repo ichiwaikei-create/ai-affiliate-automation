@@ -1,0 +1,125 @@
+max_generated_topics: 140
+defaults:
+  audience: 中小企業の社長・現場責任者
+  priority_start: 1000
+  product_categories: [course, book, tool]
+  pain_points:
+    - AIツールの選定だけが先行して対象業務が決まっていない
+    - 社内情報の置き場が分散していてAIに渡す材料が整っていない
+    - 成果指標が曖昧で導入後の判断ができない
+industries:
+  - id: food_delivery
+    name: 配食事業
+    keyword: 配食事業 AI
+    audience: 配食・弁当事業の経営者
+  - id: care
+    name: 介護事業所
+    keyword: 介護事業所 AI
+    audience: 介護事業所の管理者
+  - id: clinic
+    name: クリニック
+    keyword: クリニック AI
+    audience: 小規模クリニックの院長・事務長
+  - id: construction
+    name: 建設会社
+    keyword: 建設業 AI
+    audience: 建設会社の社長・現場責任者
+  - id: real_estate
+    name: 不動産会社
+    keyword: 不動産会社 AI
+    audience: 不動産会社の経営者
+  - id: tax_accounting
+    name: 税理士事務所
+    keyword: 税理士事務所 AI
+    audience: 税理士事務所の代表
+  - id: salon
+    name: 美容室
+    keyword: 美容室 AI
+    audience: 美容室オーナー
+  - id: restaurant
+    name: 飲食店
+    keyword: 飲食店 AI
+    audience: 飲食店オーナー
+  - id: manufacturing
+    name: 製造業
+    keyword: 製造業 AI
+    audience: 小規模製造業の経営者
+  - id: retail
+    name: 小売店
+    keyword: 小売店 AI
+    audience: 小売店の店長・経営者
+use_cases:
+  - id: daily_report
+    name: 日報整理
+    keyword: 日報 自動化
+    angle: 日報を全部AIに書かせるより、入力項目と確認者を先に固定する。
+    pain_points:
+      - 日報の書式が人によって違う
+      - 報告が溜まって管理者が読めない
+      - 改善につながる数字と事実が分かれていない
+  - id: faq
+    name: 問い合わせ対応
+    keyword: 問い合わせ対応 AI
+    angle: よくある質問をAIに任せる前に、回答してよい範囲と人間へ戻す条件を決める。
+    pain_points:
+      - 同じ質問に毎回人が答えている
+      - 担当者ごとに回答品質が変わる
+      - 例外対応までAI任せにしようとして止まる
+  - id: meeting_notes
+    name: 議事録作成
+    keyword: 議事録 AI
+    angle: 録音から要約までを自動化する前に、決定事項とTODOの責任者を残す形を決める。
+    pain_points:
+      - 会議後のTODOが曖昧なまま流れる
+      - 議事録作成が特定担当者に偏る
+      - 要約はあるが意思決定ログになっていない
+  - id: manual_search
+    name: 社内マニュアル検索
+    keyword: マニュアル検索 AI
+    angle: AI検索を入れる前に、最新版マニュアルの置き場と更新責任を決める。
+    pain_points:
+      - マニュアルが複数フォルダに散らばっている
+      - 古い手順が残っていてAI回答がぶれる
+      - ベテランに聞く運用から抜けられない
+  - id: shift
+    name: シフト作成
+    keyword: シフト作成 AI
+    angle: 希望休と必要人数の制約を整理してから、AIにはたたき台作成を任せる。
+    pain_points:
+      - シフト作成が毎月重い
+      - 希望休と必要人数の条件が見える化されていない
+      - AIに丸投げして修正が増える
+  - id: sales_followup
+    name: 営業フォロー
+    keyword: 営業フォロー AI
+    angle: フォロー文面より先に、見込み客の状態と次アクションを分類する。
+    pain_points:
+      - 見込み客の状態が担当者の記憶頼み
+      - 追客タイミングが遅れる
+      - テンプレ文だけ作っても成約理由が見えない
+  - id: invoice
+    name: 請求書確認
+    keyword: 請求書 AI
+    angle: 金額確認は人間を残し、AIは抜け漏れ検出と突合作業に限定する。
+    pain_points:
+      - 請求書の確認に時間がかかる
+      - 手入力の転記ミスが起きる
+      - 経理判断までAIに任せようとして危険になる
+  - id: hiring
+    name: 採用文面作成
+    keyword: 採用 AI
+    angle: 求人文をAIに書かせる前に、採用したい人と避けたいミスマッチを言語化する。
+    pain_points:
+      - 求人文が毎回似た内容になる
+      - 欲しい人材像が曖昧
+      - 応募数だけを追って定着率を見ていない
+tools:
+  - id: chatgpt
+    name: ChatGPT
+    keyword: ChatGPT
+  - id: claude
+    name: Claude
+    keyword: Claude
+  - id: gemini
+    name: Gemini
+    keyword: Gemini

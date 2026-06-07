@@ -1,0 +1,45 @@
+items:
+  - id: a8_ai_course_placeholder
+    name: A8.net AI・業務効率化教材 案件枠
+    category: course
+    provider: A8.net
+    official_url: https://www.a8.net/
+    affiliate_url: ""
+    payout_yen: 0
+    pr_label: "PR: 提携承認後に広告リンクとして掲載"
+    last_checked: "2026-06-07"
+    approved: false
+    notes: "提携承認と案件条件確認後に affiliate_url と payout_yen を更新する。"
+  - id: rakuten_ai_books_placeholder
+    name: 楽天 AI・業務改善関連書籍 枠
+    category: book
+    provider: Rakuten Affiliate
+    official_url: https://books.rakuten.co.jp/
+    affiliate_url: ""
+    payout_yen: 0
+    pr_label: "PR: 楽天アフィリエイトリンク掲載予定"
+    last_checked: "2026-06-07"
+    approved: false
+    notes: "楽天アフィリエイトID設定後に商品単位で追加する。"
+  - id: amazon_ai_books_placeholder
+    name: Amazon AI・業務効率化関連書籍 枠
+    category: book
+    provider: Amazon Associates
+    official_url: https://www.amazon.co.jp/
+    affiliate_url: ""
+    payout_yen: 0
+    pr_label: "PR: Amazonアソシエイトリンク掲載予定"
+    last_checked: "2026-06-07"
+    approved: false
+    notes: "Amazonアソシエイト承認後、PA-APIまたは手動リンクで追加する。"
+  - id: obsidian_official_reference
+    name: Obsidian 公式サイト
+    category: tool
+    provider: Obsidian
+    official_url: https://obsidian.md/
+    affiliate_url: ""
+    payout_yen: 0
+    pr_label: "広告なし: 参考リンク"
+    last_checked: "2026-06-07"
+    approved: false
+    notes: "SSoT文脈の参考リンク。収益リンクではないため未承認のままにする。"

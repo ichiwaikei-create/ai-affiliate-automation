@@ -1,0 +1,9 @@
+monthly_goal_yen: 1000000
+assumptions:
+  average_payout_yen: 5000
+  click_through_rate: 0.02
+  conversion_rate: 0.02
+  published_pages_target: 100
+  monthly_search_sessions_target: 1000
+  affiliate_clicks_target: 50
+  conversions_target: 1

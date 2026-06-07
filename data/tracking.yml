@@ -1,0 +1,8 @@
+analytics:
+  provider: none
+  plausible_domain: ""
+  google_analytics_measurement_id: ""
+  event_name: affiliate_click
+redirect:
+  delay_ms: 450
+  fallback_text: "広告リンクへ移動しない場合はこちら"

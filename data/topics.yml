@@ -1,0 +1,58 @@
+site:
+  title: AI業務効率化メモ
+  description: 中小企業の社長向けに、AI導入・業務効率化・情報整理を現実的に整理する比較メディア。
+  base_url: https://example.com
+  author: 薬師利一
+topics:
+  - id: small_business_ai_owner
+    slug: small-business-owner-ai-start
+    title: 中小企業の社長がAI導入前に決めるべき3つのこと
+    keyword: 中小企業 社長 AI
+    audience: 中小企業の社長
+    search_intent: AI導入を始めたいが、何から決めるべきか知りたい
+    priority: 1
+    product_categories: [course, book, tool]
+    pain_points:
+      - 社長の頭の中に情報が集まり、現場へ共有されない
+      - AIツールを入れても使う業務が決まっていない
+      - 現場の納得待ちで導入が止まる
+    angle: まずツール選定ではなく、情報の置き場と責任者を決める。
+  - id: claude_code_beginner
+    slug: claude-code-beginner-business-use
+    title: Claude Code初心者が業務効率化で最初に作るべき小さなツール
+    keyword: Claude Code 初心者 業務効率化
+    audience: プログラミング未経験からAI活用を始める人
+    search_intent: Claude Codeで何を作れば実務に役立つか知りたい
+    priority: 2
+    product_categories: [course, book]
+    pain_points:
+      - 何を作ればいいか分からず学習だけで止まる
+      - 完成品より先に大きなSaaSを作ろうとする
+      - 失敗ログが残らず次に活かせない
+    angle: 初手は売れるプロダクトではなく、自分の繰り返し作業を1つ消す。
+  - id: obsidian_ai_ssot
+    slug: obsidian-ai-ssot-small-business
+    title: ObsidianでAI活用の教え直しコストを減らす方法
+    keyword: Obsidian AI活用 SSoT
+    audience: 複数AIツールを使い始めた個人事業主・社長
+    search_intent: AIに毎回同じ説明をする非効率を減らしたい
+    priority: 3
+    product_categories: [tool, book]
+    pain_points:
+      - ClaudeとCodexで文脈が分断される
+      - 社長の判断基準がファイル化されていない
+      - メモが散らばってAIに渡せない
+    angle: AIを賢くする前に、人間側の情報源を1つにする。
+  - id: ai_tool_selection
+    slug: ai-business-tool-selection
+    title: 業務効率化AIツールを選ぶ前に見るべき比較軸
+    keyword: 業務効率化 AIツール 比較
+    audience: AIツール選定を任された担当者
+    search_intent: 自社に合うAIツールの選び方を知りたい
+    priority: 4
+    product_categories: [tool, course]
+    pain_points:
+      - 機能比較だけで選んで定着しない
+      - 無料トライアルを試して終わる
+      - セキュリティや運用責任者が未定
+    angle: 機能数ではなく、対象業務、情報管理、運用責任で比較する。
