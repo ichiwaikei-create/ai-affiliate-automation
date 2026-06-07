@@ -36,6 +36,7 @@ def exists(path: Path) -> bool:
 def main() -> int:
     today = today_jst()
     catalog = load_yaml(DATA_DIR / "affiliate_catalog.yml")
+    topics_data = load_yaml(DATA_DIR / "topics.yml")
     tracking = load_yaml(DATA_DIR / "tracking.yml")
     revenue_model = load_yaml(DATA_DIR / "revenue_model.yml")
     _, topics = load_all_topics()
@@ -46,11 +47,13 @@ def main() -> int:
     published_articles = [article for article in articles if article.get("status") == "published"]
     assumptions = revenue_model.get("assumptions", {})
     target_pages = int(assumptions.get("published_pages_target", 100))
+    base_url = topics_data.get("site", {}).get("base_url", "")
 
     checks: List[Check] = [
         Check("GitHub remote", bool(remote), remote or "origin remote is not configured"),
         Check("GitHub Actions", exists(Path(".github/workflows/daily_generate.yml")) and exists(Path(".github/workflows/deploy.yml")), "daily/deploy workflows present"),
         Check("GitHub Pages artifact", exists(SITE_DIR / "index.html") and exists(SITE_DIR / "sitemap.xml"), "site/index.html and sitemap.xml present"),
+        Check("Production base_url", base_url.startswith("https://") and "example.com" not in base_url, base_url or "base_url is empty"),
         Check("Published articles", len(published_articles) >= 10, f"{len(published_articles)} published articles"),
         Check("100-page inventory", len(topics) >= target_pages, f"{len(topics)} topic candidates for {target_pages}-page target"),
         Check("Approved affiliate links", len(approved_items) > 0, f"{len(approved_items)} approved affiliate items"),

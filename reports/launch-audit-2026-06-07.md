@@ -2,14 +2,15 @@
 
 ## 結論
 
-- passed: 4/7
-- blockers: 3
+- passed: 6/8
+- blockers: 2
 
 ## Checks
 
-- BLOCKED: GitHub remote — origin remote is not configured
+- OK: GitHub remote — https://github.com/ichiwaikei-create/ai-affiliate-automation.git
 - OK: GitHub Actions — daily/deploy workflows present
 - OK: GitHub Pages artifact — site/index.html and sitemap.xml present
+- OK: Production base_url — https://ichiwaikei-create.github.io/ai-affiliate-automation
 - OK: Published articles — 10 published articles
 - OK: 100-page inventory — 144 topic candidates for 100-page target
 - BLOCKED: Approved affiliate links — 0 approved affiliate items

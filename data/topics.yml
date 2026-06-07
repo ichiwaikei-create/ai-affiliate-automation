@@ -1,7 +1,7 @@
 site:
   title: AI業務効率化メモ
   description: 中小企業の社長向けに、AI導入・業務効率化・情報整理を現実的に整理する比較メディア。
-  base_url: https://example.com
+  base_url: https://ichiwaikei-create.github.io/ai-affiliate-automation
   author: 薬師利一
 topics:
   - id: small_business_ai_owner
