@@ -2,8 +2,8 @@
 
 ## 結論
 
-- passed: 7/9
-- blockers: 2
+- passed: 8/9
+- blockers: 1
 
 ## Checks
 
@@ -15,7 +15,7 @@
 - OK: Published articles — 100 published articles for 100-page target
 - OK: 100-page inventory — 144 topic candidates for 100-page target
 - BLOCKED: Approved affiliate links — 0 approved affiliate items
-- BLOCKED: Analytics events — provider=none
+- OK: Analytics events — provider=google_analytics
 
 ## Next Actions
 

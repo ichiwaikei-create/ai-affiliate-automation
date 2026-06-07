@@ -1,7 +1,7 @@
 analytics:
-  provider: none
+  provider: google_analytics
   plausible_domain: ""
-  google_analytics_measurement_id: ""
+  google_analytics_measurement_id: G-6WV1PY9B6L
   event_name: affiliate_click
 redirect:
   delay_ms: 450
