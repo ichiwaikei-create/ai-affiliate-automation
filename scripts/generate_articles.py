@@ -58,6 +58,40 @@ def affiliate_section(catalog: Dict[str, Any], categories: List[str]) -> str:
     return "\n".join(lines).strip() + "\n"
 
 
+def template_context_section(topic: Dict[str, Any]) -> str:
+    if not topic.get("generated_from_template"):
+        return ""
+    industry = topic.get("industry_name", "この業種")
+    use_case = topic.get("use_case_name", "対象業務")
+    tool = topic.get("tool_name", "AIツール")
+    industry_context = topic.get("industry_context") or f"{industry}では、現場ごとの情報と判断が散らばりやすいです。"
+    use_case_angle = topic.get("use_case_angle") or f"{use_case}は、入力と確認のルールを先に決める必要があります。"
+    tool_strength = topic.get("tool_strength") or f"{tool}は下書きと整理の補助に使えます。"
+    tool_caution = topic.get("tool_caution") or "ただし、判断や承認まで任せる前に人間の確認手順を残す必要があります。"
+    return f"""
+## {industry}で見るべき前提
+
+{industry_context}
+
+{use_case}にAIを入れる場合、最初から全部を自動化しようとすると失敗しやすいです。まずは「誰が入力するか」「どの情報をAIに渡すか」「最後に誰が確認するか」を決めます。
+
+## {tool}を使う場合の注意
+
+{tool_strength} 一方で、{tool_caution}
+
+このため、初期設定ではAIの出力をそのまま確定情報にせず、確認済み、要確認、差し戻しの3つに分ける運用が現実的です。
+
+## {use_case}の最小ワークフロー
+
+- 入力: 現場が毎日残している情報を1つの場所に集める
+- 処理: {tool}で要約、分類、下書きを作る
+- 確認: 責任者が事実と判断を分けて確認する
+- 記録: うまくいった例と失敗した例を翌週の改善材料にする
+
+{use_case_angle}
+"""
+
+
 def build_article(topic: Dict[str, Any], catalog: Dict[str, Any]) -> str:
     today = today_jst().isoformat()
     title = topic["title"]
@@ -118,6 +152,8 @@ def build_article(topic: Dict[str, Any], catalog: Dict[str, Any]) -> str:
 ## 限界と注意点
 
 AIは入力された情報以上の判断はできません。古いマニュアル、担当者ごとに違うルール、未整理のチャット履歴をそのまま渡しても、安定した成果は出にくいです。また、顧客情報や社内機密を扱う場合は、利用規約、権限、保存先の確認が必要です。
+
+{template_context_section(topic)}
 
 {affiliate_section(catalog, categories)}
 

@@ -12,42 +12,52 @@ industries:
     name: 配食事業
     keyword: 配食事業 AI
     audience: 配食・弁当事業の経営者
+    context: 配食事業では、注文、献立、配送、安否確認、日報がつながっており、現場の入力負荷を増やすと定着しにくい。
   - id: care
     name: 介護事業所
     keyword: 介護事業所 AI
     audience: 介護事業所の管理者
+    context: 介護事業所では、記録品質と個人情報の扱いが重要で、AI化する範囲を慎重に切り分ける必要がある。
   - id: clinic
     name: クリニック
     keyword: クリニック AI
     audience: 小規模クリニックの院長・事務長
+    context: クリニックでは、受付、予約、説明資料、院内共有を効率化しやすい一方、医療判断に踏み込まない線引きが必要になる。
   - id: construction
     name: 建設会社
     keyword: 建設業 AI
     audience: 建設会社の社長・現場責任者
+    context: 建設会社では、現場ごとの報告、写真、工程、見積もり情報が散りやすく、情報整理から始める方が効果が出やすい。
   - id: real_estate
     name: 不動産会社
     keyword: 不動産会社 AI
     audience: 不動産会社の経営者
+    context: 不動産会社では、物件情報、問い合わせ、追客、契約前確認が多く、AIには分類と下書きから任せるのが現実的。
   - id: tax_accounting
     name: 税理士事務所
     keyword: 税理士事務所 AI
     audience: 税理士事務所の代表
+    context: 税理士事務所では、顧問先資料と専門判断が混ざるため、AIには一次整理とチェックリスト化を任せる方が安全。
   - id: salon
     name: 美容室
     keyword: 美容室 AI
     audience: 美容室オーナー
+    context: 美容室では、予約、顧客メモ、SNS、スタッフ共有が中心で、少人数でも運用できる軽い仕組みが向いている。
   - id: restaurant
     name: 飲食店
     keyword: 飲食店 AI
     audience: 飲食店オーナー
+    context: 飲食店では、仕込み、シフト、口コミ、販促が日々変わるため、AI化は短い確認サイクルで始める必要がある。
   - id: manufacturing
     name: 製造業
     keyword: 製造業 AI
     audience: 小規模製造業の経営者
+    context: 製造業では、手順書、検査記録、問い合わせ、見積もりの再利用性が高く、マニュアル整備と相性が良い。
   - id: retail
     name: 小売店
     keyword: 小売店 AI
     audience: 小売店の店長・経営者
+    context: 小売店では、商品説明、在庫確認、接客メモ、販促文の作成など、短時間で繰り返す業務からAI化しやすい。
 use_cases:
   - id: daily_report
     name: 日報整理
@@ -117,9 +127,15 @@ tools:
   - id: chatgpt
     name: ChatGPT
     keyword: ChatGPT
+    strength: 汎用的な文章作成とアイデア出しに使いやすい。
+    caution: 社内情報を入れる前に、利用プランとデータ利用設定を確認する。
   - id: claude
     name: Claude
     keyword: Claude
+    strength: 長文整理、マニュアル要約、判断軸の整理に向いている。
+    caution: 長い資料でも、最新版と古い版が混ざると回答がぶれる。
   - id: gemini
     name: Gemini
     keyword: Gemini
+    strength: Google Workspace周辺の情報整理と相性が良い。
+    caution: Workspace連携時は、共有権限と閲覧範囲の確認が必要になる。

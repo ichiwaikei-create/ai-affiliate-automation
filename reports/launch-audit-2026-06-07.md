@@ -11,7 +11,7 @@
 - OK: GitHub Actions — daily/deploy workflows present
 - OK: GitHub Pages artifact — site/index.html and sitemap.xml present
 - OK: Production base_url — https://ichiwaikei-create.github.io/ai-affiliate-automation
-- OK: Published articles — 10 published articles
+- OK: Published articles — 100 published articles for 100-page target
 - OK: 100-page inventory — 144 topic candidates for 100-page target
 - BLOCKED: Approved affiliate links — 0 approved affiliate items
 - BLOCKED: Analytics events — provider=none

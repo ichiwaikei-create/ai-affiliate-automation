@@ -54,7 +54,7 @@ def main() -> int:
         Check("GitHub Actions", exists(Path(".github/workflows/daily_generate.yml")) and exists(Path(".github/workflows/deploy.yml")), "daily/deploy workflows present"),
         Check("GitHub Pages artifact", exists(SITE_DIR / "index.html") and exists(SITE_DIR / "sitemap.xml"), "site/index.html and sitemap.xml present"),
         Check("Production base_url", base_url.startswith("https://") and "example.com" not in base_url, base_url or "base_url is empty"),
-        Check("Published articles", len(published_articles) >= 10, f"{len(published_articles)} published articles"),
+        Check("Published articles", len(published_articles) >= target_pages, f"{len(published_articles)} published articles for {target_pages}-page target"),
         Check("100-page inventory", len(topics) >= target_pages, f"{len(topics)} topic candidates for {target_pages}-page target"),
         Check("Approved affiliate links", len(approved_items) > 0, f"{len(approved_items)} approved affiliate items"),
         Check("Analytics events", analytics.get("provider") in {"plausible", "google_analytics"}, f"provider={analytics.get('provider', 'none')}"),

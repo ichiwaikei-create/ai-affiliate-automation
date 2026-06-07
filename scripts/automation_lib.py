@@ -166,6 +166,13 @@ def expand_template_topics(template_data: Dict[str, Any]) -> List[Dict[str, Any]
                         ),
                         "pain_points": use_case.get("pain_points", defaults.get("pain_points", [])),
                         "angle": f"{industry['name']}では、{use_case['angle']} {tool['name']}は導入先ではなく、対象業務を決めた後の実行手段として扱う。",
+                        "industry_name": industry["name"],
+                        "use_case_name": use_case["name"],
+                        "tool_name": tool["name"],
+                        "industry_context": industry.get("context", ""),
+                        "use_case_angle": use_case["angle"],
+                        "tool_caution": tool.get("caution", ""),
+                        "tool_strength": tool.get("strength", ""),
                         "generated_from_template": True,
                     }
                 )
