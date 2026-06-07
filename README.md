@@ -2,6 +2,9 @@
 
 GitHub PagesとGitHub Actionsで、AI業務効率化に特化したSEO記事を生成、品質チェック、静的サイト化、週次レポート作成まで自動化するためのリポジトリです。
 
+- 公開サイト: https://ichiwaikei-create.github.io/ai-affiliate-automation/
+- GitHub: https://github.com/ichiwaikei-create/ai-affiliate-automation
+
 ## 重要な前提
 
 - 月100万円は保証しません。平均成果報酬5,000円なら月200件成約が必要です。
@@ -69,7 +72,13 @@ GitHub Pagesを使う場合は、リポジトリ Settings の Pages で GitHub A
 python3 scripts/launch_audit.py
 ```
 
-公開・収益化に必要な状態を監査し、`reports/launch-audit-YYYY-MM-DD.md` に出力します。未達がある場合は終了コード2を返します。現時点では、GitHub remote、承認済みアフィリリンク、分析タグが外部作業待ちとして出ます。
+公開・収益化に必要な状態を監査し、`reports/launch-audit-YYYY-MM-DD.md` に出力します。未達がある場合は終了コード2を返します。現時点では、承認済みアフィリリンクと分析タグが外部作業待ちとして出ます。
+
+外部作業待ちはGitHub Issueで管理します。
+
+- 承認済みアフィリリンク追加: https://github.com/ichiwaikei-create/ai-affiliate-automation/issues/2
+- クリック計測設定: https://github.com/ichiwaikei-create/ai-affiliate-automation/issues/1
+- Google Search Console登録: https://github.com/ichiwaikei-create/ai-affiliate-automation/issues/3
 
 ## GitHub Secrets
 
